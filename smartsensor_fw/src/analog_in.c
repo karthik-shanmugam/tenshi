@@ -31,6 +31,20 @@ void initAnalogIn() {
   // Enable the ACD and set the division factor between
   // the system clock frequency and the input clock to the ADC.
   ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+  DIGITAL_SET_HIGH(IN3);
+  DIGITAL_SET_OUT(IN3); 
+  while(1){
+  
+  int val0 = adc_read(A_IN0);
+  int val1 = adc_read(A_IN1);
+  int val2 = adc_read(A_IN2);
+  if (val0<512){
+	DIGITAL_SET_HIGH(IN3);	
+  }
+  else{
+  	DIGITAL_SET_LOW(IN3);
+  }
+  }
 }
 void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
   // Casey told me to leave this empty. So hi.
@@ -40,19 +54,18 @@ void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
   // I'll need this for the analog out code, though.
 }
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-  *outLen = 8;
-  int val0 = adc_read((1 << MUX3) | (1 << MUX1));  // 10 bit resolution
-  int val1 = adc_read((1 << MUX3) | (1 << MUX1));
-  int val2 = adc_read((1 << MUX3) | (1 << MUX1));
-  int val3 = adc_read((1 << MUX3) | (1 << MUX1));
+  *outLen = 6;
+  int val0 = adc_read(A_IN0); 
+  int val1 = adc_read(A_IN1);  // (1 << MUX3) | (1 << MUX1));
+  int val2 = adc_read(A_IN2);  // (1 << MUX3) | (1 << MUX1));
   outData[0] = val0;
   outData[1] = val0 >> 8;
   outData[2] = val1;
   outData[3] = val1 >> 8;
   outData[4] = val2;
   outData[5] = val2 >> 8;
-  outData[6] = val3;
-  outData[7] = val3 >> 8;
+  outData[6] =0;
+  outData[7] =0;
 }
 
 // Private helper functions
