@@ -104,6 +104,32 @@ allDescriptors = {
         "additional": array('B', [0x01, 0xFF, 0xFF])
       },
     ]
+  },
+
+    "solenoid": {
+    "description": "This is a solenoid.  It can be used to control " + \
+                   "up to four solenoids.",
+    "chunksNumer": 0xFF,  # TODO(cduck): What is this?
+    "chunksDenom": 0xFF,
+    "channels": [
+      gameModeChannel,
+      { "description": "This is the first digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the second digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the third digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+      { "description": "This is the fourth digital channel.",
+        "type": 0x04,
+        "additional": array('B', [0x01, 0xFF, 0xFF])
+      },
+    ]
   }
 }
 
