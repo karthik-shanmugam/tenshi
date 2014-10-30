@@ -18,7 +18,7 @@
 // This file has battery buzzer related functions
 
 #include "inc/servo.h"
-
+#include <avr/io.h>
 // Private global variables
 void setRegister0A(uint8_t data);
 void setRegister0B(uint8_t data);
@@ -29,7 +29,7 @@ void setRegister1B(uint8_t data);
 int adc_read(void);
 
 // Public functions called from main.c
-void initBuzzer() {
+void initServo() {
   // Does everything to set up the analog stuffs.
   // Turn on pin PC1 (which maps to IN0)
   ADMUX |= (1 << MUX3) | (1 << MUX1);
@@ -40,13 +40,12 @@ void initBuzzer() {
   // set register to pwm mode
   TCCR0A |= (1<<COM0A1) | (1<<WGM00);
   TCCR0B |= (1<<CS01);
-  OCROA = 127;
-  DIGITAL_SET_OUT(test);
-  setRegister0A(0x8F);
+  DIGITAL_SET_OUT(PIN_DEFINITION(C,0));
+  OCR0A = 0x8F;
 }
-void activeBuzzerRec(uint8_t *data, uint8_t len, uint8_t inband) {
+void activeServoRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
-void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
+void activeServoSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   // TODO(cduck): Write this function
 }
 
@@ -57,7 +56,7 @@ void setRegister0A(uint8_t data){
   OCR0A=data;
 }
 void setRegister0B(uint8_t data){
-  OCROB=data;
+  OCR0B=data;
 }
 void setRegister1A(uint8_t data){
   OCR1A=data;

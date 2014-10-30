@@ -20,7 +20,7 @@
 #include "inc/solenoid.h"
 
 // Private global variables
-uint8_t outValue = 0;
+uint8_t outValueSolenoid = 0;
 
 // Private helper functions
 void SolenoidSetValue(uint8_t val);
@@ -41,10 +41,10 @@ void initSolenoid() {
 }
 void activeSolenoidRec(uint8_t *data, uint8_t len, uint8_t inband) {
   if (len >= 1) {
-    outValue = data[0];
+    outValueSolenoid = data[0];
   }
   switch (gameMode) {
-    case MODE_ACTIVE: SolenoidSetValue(outValue);
+    case MODE_ACTIVE: SolenoidSetValue(outValueSolenoid);
       break;
     case MODE_DISABLED: SolenoidSetValue(0);
       break;

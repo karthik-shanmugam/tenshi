@@ -153,6 +153,7 @@ allDescriptors = {
       { "description": "This is the fourth analog channel.",
         "type"  : 0x03,
         "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      }
     ]
   }, 
 }
