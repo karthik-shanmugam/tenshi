@@ -23,11 +23,11 @@
 uint8_t outValue = 0;
 
 // Private helper functions
-void digitalSetValue(uint8_t val);
+void SolenoidSetValue(uint8_t val);
 
 
 // Public functions called from main.c
-void initDigital() {
+void initSolenoid() {
   DIGITAL_SET_LOW(IN0);
   DIGITAL_SET_LOW(IN1);
   DIGITAL_SET_LOW(IN2);
@@ -39,7 +39,7 @@ void initDigital() {
   DIGITAL_SET_OUT(IN2);
   DIGITAL_SET_OUT(IN3);
 }
-void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
+void activeSolenoidRec(uint8_t *data, uint8_t len, uint8_t inband) {
   if (len >= 1) {
     outValue = data[0];
   }
@@ -52,7 +52,7 @@ void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
     default: break;
   }
 }
-void activeDigitalSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
+void activeSolenoidSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 *outLen=0;
 }
 

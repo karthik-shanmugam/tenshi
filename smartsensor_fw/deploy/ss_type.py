@@ -23,8 +23,8 @@ allDescriptors = {
   },
 
   "analog-in": {
-    "description": "This is a digital sensor.  It can be used to get the " + \
-                   "state of up to four switches.",
+    "description": "This is a analog sensor.  It can be used to get the " + \
+                   "state of up to four inputs.",
     "chunksNumer": 0xFF,
     "chunksDenom": 0xFF,
     "channels": [
@@ -130,7 +130,31 @@ allDescriptors = {
         "additional": array('B', [0x01, 0xFF, 0xFF])
       },
     ]
-  }
+  },
+  "servo": {
+    "description": "This is a servo. It can be used to control " + \
+                   "up to four servos.",
+    "chunksNumer": 0xFF,
+    "chunksDenom": 0xFF,
+    "channels": [
+      gameModeChannel,
+      { "description": "This is the first analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      },
+      { "description": "This is the second analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      },
+      { "description": "This is the third analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+      },
+      { "description": "This is the fourth analog channel.",
+        "type"  : 0x03,
+        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+    ]
+  }, 
 }
 
 def allTypes():

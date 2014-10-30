@@ -15,14 +15,14 @@
 // specific language governing permissions and limitations
 // under the License
 
-#ifndef INC_SOLENOID_H_
-#define INC_SOLENOID_H_
+#ifndef INC_SERVO_H_
+#define INC_SERVO_H_
 
 #include "inc/smartsensor/common.h"
 
 // Public functions called from main.c
-void initSolenoid();
-void activeSolenoidRec(uint8_t *data, uint8_t len, uint8_t inband);
-void activeSolenoidSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
+void initServo();
+void activeServoRec(uint8_t *data, uint8_t len, uint8_t inband);
+void activeServoSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband);
 
-#endif  // INC_SOLENOID_H_
+#endif  // INC_SERVO_H_
