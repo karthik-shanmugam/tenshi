@@ -17,7 +17,7 @@
 
 // This file has digital io smart sensor related functions
 
-#include "inc/digital.h"
+#include "inc/solenoid.h"
 
 // Private global variables
 uint8_t outValue = 0;

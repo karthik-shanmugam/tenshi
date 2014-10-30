@@ -17,9 +17,13 @@
 
 // This file has battery buzzer related functions
 
-#include "inc/buzzer.h"
+#include "inc/servo.h"
 
 // Private global variables
+void setRegister0A(uint8_t data);
+void setRegister0B(uint8_t data);
+void setRegister1A(uint8_t data);
+void setRegister1B(uint8_t data);
 
 // Private helper functions
 int adc_read(void);
@@ -32,6 +36,13 @@ void initBuzzer() {
   // Enable the ADC and set the division factor between
   // the system clock frequency and the input clock to the ADC.
   ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+
+  // set register to pwm mode
+  TCCR0A |= (1<<COM0A1) | (1<<WGM00);
+  TCCR0B |= (1<<CS01);
+  OCROA = 127;
+  DIGITAL_SET_OUT(test);
+  setRegister0A(0x8F);
 }
 void activeBuzzerRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
@@ -39,8 +50,21 @@ void activeBuzzerSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
   // TODO(cduck): Write this function
 }
 
-// Private helper functions
 
+
+// Private helper functions
+void setRegister0A(uint8_t data){
+  OCR0A=data;
+}
+void setRegister0B(uint8_t data){
+  OCROB=data;
+}
+void setRegister1A(uint8_t data){
+  OCR1A=data;
+}
+void setRegister1B(uint8_t data){
+  OCR1B=data;
+}
 // Taken from http://www.adnbr.co.uk/articles/adc-and-pwm-basics
 // by Sumita because I can't code.
 // It's for the ATtiny13, though.
