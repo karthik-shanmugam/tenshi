@@ -25,47 +25,37 @@
 
 // Public functions called from main.c
 void initAnalogIn() {
-  // Does everything to set up the analog stuffs.
-  // Turn on pin PC1 (which maps to IN0)
-  ADMUX |= (1 << MUX3) | (1 << MUX1);
-  // Enable the ACD and set the division factor between
-  // the system clock frequency and the input clock to the ADC.
-  ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
-  DIGITAL_SET_HIGH(IN3);
-  DIGITAL_SET_OUT(IN3); 
-  while(1){
-  
-  int val0 = adc_read(A_IN0);
-  int val1 = adc_read(A_IN1);
-  int val2 = adc_read(A_IN2);
-  if (val0<512){
-	DIGITAL_SET_HIGH(IN3);	
-  }
-  else{
-  	DIGITAL_SET_LOW(IN3);
-  }
-  }
+    // Does everything to set up the analog stuffs.
+    // Turn on pin PC1 (which maps to IN0)
+    ADMUX |= (1 << MUX3) | (1 << MUX1);
+    // Enable the ACD and set the division factor between
+    // the system clock frequency and the input clock to the ADC.
+    ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+    DIGITAL_SET_HIGH(IN3);
+    DIGITAL_SET_OUT(IN3);
 }
+
 void activeAnalogInRec(uint8_t *data, uint8_t len, uint8_t inband) {
-  // Casey told me to leave this empty. So hi.
-  // When the ss receives a command from the control, this gets called.
-  // But I don't need it here because it's reading a pot so
-  // there's no information coming from the controller.
-  // I'll need this for the analog out code, though.
+    // Casey told me to leave this empty. So hi.
+    // When the ss receives a command from the control, this gets called.
+    // But I don't need it here because it's reading a pot so
+    // there's no information coming from the controller.
+    // I'll need this for the analog out code, though.
 }
+
 void activeAnalogInSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-  *outLen = 6;
-  int val0 = adc_read(A_IN0); 
-  int val1 = adc_read(A_IN1);  // (1 << MUX3) | (1 << MUX1));
-  int val2 = adc_read(A_IN2);  // (1 << MUX3) | (1 << MUX1));
-  outData[0] = val0;
-  outData[1] = val0 >> 8;
-  outData[2] = val1;
-  outData[3] = val1 >> 8;
-  outData[4] = val2;
-  outData[5] = val2 >> 8;
-  outData[6] =0;
-  outData[7] =0;
+    *outLen = 6;
+    int val0 = adc_read(A_IN0);
+    int val1 = adc_read(A_IN1);  // (1 << MUX3) | (1 << MUX1));
+    int val2 = adc_read(A_IN2);  // (1 << MUX3) | (1 << MUX1));
+    outData[0] = val0;
+    outData[1] = val0 >> 8;
+    outData[2] = val1;
+    outData[3] = val1 >> 8;
+    outData[4] = val2;
+    outData[5] = val2 >> 8;
+    outData[6] =0;
+    outData[7] =0;
 }
 
 // Private helper functions

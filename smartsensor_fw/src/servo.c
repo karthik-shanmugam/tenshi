@@ -32,17 +32,31 @@ int adc_read(void);
 void initServo() {
   // Does everything to set up the analog stuffs.
   // Turn on pin PC1 (which maps to IN0)
-  ADMUX |= (1 << MUX3) | (1 << MUX1);
+  // ADMUX |= (1 << MUX3) | (1 << MUX1);
   // Enable the ADC and set the division factor between
   // the system clock frequency and the input clock to the ADC.
-  ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
+  // ADCSRA |= (1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);
 
   // set register to pwm mode
-  TCCR0A |= (1<<COM0A1) | (1<<WGM00);
-  TCCR0B |= (1<<CS01);
-  DIGITAL_SET_OUT(PIN_DEFINITION(C,0));
-  OCR0A = 0x8F;
+  // TCCR0B = (1 << CS01) | (1 << WGM02);
+  // DIGITAL_SET_OUT(PIN_DEFINITION(C, 0));
+  // DIGITAL_SET_OUT(PIN_DEFINITION(A, 5));
+  // TCCR0A = (1 << WGM00);
+  // TCCR0A |= (1 << COM0A1) | (1 << COM0B1);
+  // OCR0A = 0x7F;
+  // OCR0B = 0x3F;
+
+
+  // DIGITAL_SET_OUT(PIN_DEFINITION(B, 3));
+  OCR1BL = 0x7F;
+  DIGITAL_SET_OUT(PIN_DEFINITION(A, 6));
+  TCCR1A = (1 << COM1B1) | (1 << WGM10);
+  TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
+
+  // Enable Timer/Counter1 Overflow Interrupt
+  TIMSK = (1 << TOIE1);
 }
+
 void activeServoRec(uint8_t *data, uint8_t len, uint8_t inband) {
 }
 void activeServoSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
@@ -52,17 +66,17 @@ void activeServoSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 
 
 // Private helper functions
-void setRegister0A(uint8_t data){
-  OCR0A=data;
+void setRegister0A(uint8_t data) {
+  OCR0A = data;
 }
-void setRegister0B(uint8_t data){
-  OCR0B=data;
+void setRegister0B(uint8_t data) {
+  OCR0B = data;
 }
-void setRegister1A(uint8_t data){
-  OCR1A=data;
+void setRegister1A(uint8_t data) {
+  OCR1A = data;
 }
-void setRegister1B(uint8_t data){
-  OCR1B=data;
+void setRegister1B(uint8_t data) {
+  OCR1B = data;
 }
 // Taken from http://www.adnbr.co.uk/articles/adc-and-pwm-basics
 // by Sumita because I can't code.

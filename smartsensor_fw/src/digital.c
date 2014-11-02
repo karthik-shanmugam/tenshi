@@ -28,16 +28,30 @@ void digitalSetValue(uint8_t val);
 
 // Public functions called from main.c
 void initDigital() {
-  DIGITAL_PULLUP_ON(IN0);
-  DIGITAL_SET_LOW(IN1);
-  DIGITAL_SET_LOW(IN2);
-  DIGITAL_SET_LOW(IN3);
+  OCR0A = 0x7F;
+  OCR0B = 0x40;
+  DIGITAL_SET_OUT(PIN_DEFINITION(C, 0));
+  DIGITAL_SET_OUT(PIN_DEFINITION(A, 5));
+  TCCR0A = (1 << WGM00);
+  TCCR0A |= (1 << COM0A1) | (1 << COM0B1);
+  TCCR0B = (1 << CS01) | (1 << WGM02) | (1 << CS00);
+  OCR1BL = 0x7F;
+  DIGITAL_SET_OUT(PIN_DEFINITION(A, 6));
+  TCCR1A = (1 << COM1B1) | (1 << WGM10);
+  TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
+
+  // Enable Timer/Counter1 Overflow Interrupt
+  TIMSK = (1 << TOIE1);
+  // DIGITAL_PULLUP_ON(IN0);
+  // DIGITAL_SET_LOW(IN1);
+  // DIGITAL_SET_LOW(IN2);
+  // DIGITAL_SET_LOW(IN3);
 
   // TODO(tobinsarah): allow configuration as input/output for each relevant pin
-  DIGITAL_SET_IN(IN0);
-  DIGITAL_SET_OUT(IN1);
-  DIGITAL_SET_OUT(IN2);
-  DIGITAL_SET_OUT(IN3);
+  // DIGITAL_SET_IN(IN0);
+  // DIGITAL_SET_OUT(IN1);
+  // DIGITAL_SET_OUT(IN2);
+  // DIGITAL_SET_OUT(IN3);
 }
 void activeDigitalRec(uint8_t *data, uint8_t len, uint8_t inband) {
   if (len >= 1) {

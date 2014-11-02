@@ -53,7 +53,7 @@ void activeSolenoidRec(uint8_t *data, uint8_t len, uint8_t inband) {
   }
 }
 void activeSolenoidSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
-*outLen=0;
+*outLen = 0;
 }
 
 
@@ -61,7 +61,7 @@ void activeSolenoidSend(uint8_t *outData, uint8_t *outLen, uint8_t *inband) {
 
 
 // Private helper functions
-//TODO: karthik-shanmugam: update pins
+// TODO(karthik-shanmugam): update pins
 void SolenoidSetValue(uint8_t val) {
   DIGITAL_SET(IN0, val & 1);  // UPDATE IN0
   DIGITAL_SET(IN1, val & 2);  // UPDATE IN1
