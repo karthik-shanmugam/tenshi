@@ -28,20 +28,25 @@ void digitalSetValue(uint8_t val);
 
 // Public functions called from main.c
 void initDigital() {
-  OCR0A = 0x7F;
-  OCR0B = 0x40;
+  //0.01639344262 is cycle length
+  // 16 is 1 ms
+  // 23 is 1.5 ms
+  // 31 is 2 ms
+  OCR0A = 0x10;
+  OCR0B = 0x19;
   DIGITAL_SET_OUT(PIN_DEFINITION(C, 0));
   DIGITAL_SET_OUT(PIN_DEFINITION(A, 5));
-  TCCR0A = (1 << WGM00);
-  TCCR0A |= (1 << COM0A1) | (1 << COM0B1);
-  TCCR0B = (1 << CS01) | (1 << WGM02) | (1 << CS00);
-  OCR1BL = 0x7F;
+  TCCR0A = (1 << WGM00)| (1 << COM0A1) | (1 << COM0B1);
+  TCCR0B = (1 << CS02);
+  OCR1BL = 0x1F;
+  OCR1AL = 0x10;
   DIGITAL_SET_OUT(PIN_DEFINITION(A, 6));
-  TCCR1A = (1 << COM1B1) | (1 << WGM10);
-  TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
+  DIGITAL_SET_OUT(PIN_DEFINITION(B, 3));
+  TCCR1A = (1 << COM1B1) | (1 << WGM10) | (1 << COM1A1);
+  TCCR1B = (1 << CS12);
 
   // Enable Timer/Counter1 Overflow Interrupt
-  TIMSK = (1 << TOIE1);
+  TIMSK = (1 << TOIE1) | (1 << TOIE0);
   // DIGITAL_PULLUP_ON(IN0);
   // DIGITAL_SET_LOW(IN1);
   // DIGITAL_SET_LOW(IN2);
