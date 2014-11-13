@@ -29,16 +29,40 @@
 
 ISR(TIMER1_OVF_vect) {
   static unsigned char counter = 0;
+  static unsigned char previousH = 0x0F;
+  static unsigned char previousL = 0xA0;
+  static unsigned char direction = 1;
+  static unsigned char slower = 0;
   if (counter == 0) {
-    DIGITAL_SET(IN1, 1);
-    TCCR1A = (1 << COM1A1) | (1 << COM1A0);
-    OCR1A = 0xAFFF;
+    // DIGITAL_SET(IN1, 1);
+    TCCR1A = (1 << COM1A1) | (1 << COM1A0) | (1 << COM1B1) | (1<< COM1B0);
+    TCCR1B = (1 << CS10) | (1 << WGM13);
+    slower++;
+    if (slower % 10 == 0) {
+      previousL == previousL + direction;
+    }
+    if (previousL == 0) {
+      previousH = previousH + direction;
+    }
+    if (previousL == 0x40 && previousH == 0x1F) {
+      direction = -1;
+    }
+    if (previousL == 0xA0 && previousH == 0x0F) {
+      direction = 1;
+    }
+    OCR1AH = previousH;
+    OCR1AL = previousL;
+    OCR1BH = 0x0F;
+    OCR1BL = 0xA0;
     counter++;
   } else if (counter == 1) {
-    TCCR1A = 0;
-    DIGITAL_SET(IN1, 0);
+    // TCCR1A = 0;
+    // DIGITAL_SET(IN1, 1);
+    TCCR1A = (1 << WGM11);
+    TCCR1B = (1 << CS10) | (1 << WGM12) | (1 << WGM13);
     counter++;
-  } else if (counter == 20) {
+  } else if (counter == 19) {
+    // DIGITAL_TOGGLE(IN3);
     counter = 0;
   } else {
     counter++;
@@ -51,8 +75,11 @@ void initDigital() {
   // 0x19 is 1.5 ms
   // 0x1F is 2 ms
   DIGITAL_SET_OUT(IN1);
+  DIGITAL_SET_OUT(IN3);
   TCCR1A = 0;
-  TCCR1B = (1 << CS10);
+  TCCR1B = (1 << CS10) | (1 << WGM13);
+  ICR1H = 0x1F;
+  ICR1L = 0x40;
   TIMSK = (1 << TOIE1);
   sei();
 
