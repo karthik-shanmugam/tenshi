@@ -29,31 +29,19 @@
 
 ISR(TIMER1_OVF_vect) {
   static unsigned char counter = 0;
-  static unsigned char previousH = 0x0F;
-  static unsigned char previousL = 0xA0;
-  static unsigned char direction = 1;
-  static unsigned char slower = 0;
+  static unsigned char previous = 0x0FA0;
   if (counter == 0) {
     // DIGITAL_SET(IN1, 1);
     TCCR1A = (1 << COM1A1) | (1 << COM1A0) | (1 << COM1B1) | (1<< COM1B0);
     TCCR1B = (1 << CS10) | (1 << WGM13);
-    slower++;
-    if (slower % 10 == 0) {
-      previousL == previousL + direction;
+    previous++;
+    if (previous == 0x1F40) {
+      previous = 0x0FA0;
     }
-    if (previousL == 0) {
-      previousH = previousH + direction;
-    }
-    if (previousL == 0x40 && previousH == 0x1F) {
-      direction = -1;
-    }
-    if (previousL == 0xA0 && previousH == 0x0F) {
-      direction = 1;
-    }
-    OCR1AH = previousH;
-    OCR1AL = previousL;
-    OCR1BH = 0x0F;
-    OCR1BL = 0xA0;
+    OCR1AH = previous/0x100;
+    OCR1AL = previous*0x100;
+    OCR1BH = previous/0x100;
+    OCR1BL = previous*0x100;
     counter++;
   } else if (counter == 1) {
     // TCCR1A = 0;
