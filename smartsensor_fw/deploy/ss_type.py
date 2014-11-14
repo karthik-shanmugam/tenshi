@@ -133,26 +133,18 @@ allDescriptors = {
   },
   "servo": {
     "description": "This is a servo. It can be used to control " + \
-                   "up to four servos.",
+                   "up to two servos.",
     "chunksNumer": 0xFF,
     "chunksDenom": 0xFF,
     "channels": [
       gameModeChannel,
       { "description": "This is the first analog channel.",
         "type"  : 0x03,
-        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        "additional": array('B', [0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x01])
       },
       { "description": "This is the second analog channel.",
         "type"  : 0x03,
-        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
-      },
-      { "description": "This is the third analog channel.",
-        "type"  : 0x03,
-        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
-      },
-      { "description": "This is the fourth analog channel.",
-        "type"  : 0x03,
-        "additional": array('B', [0xFF, 0xFF, 0xFF, 0xFF])
+        "additional": array('B', [0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x1F, 0x00, 0x00, 0x01])
       }
     ]
   }, 
